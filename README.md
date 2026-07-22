@@ -4,11 +4,11 @@ A GitHub-ready Next.js application for the fictional Charlotteverse. It converts
 
 ## Features
 
-- TEFFB, RadB, MassB, RadSeed, TeffSeed, and MassSeed calculations
+- TEFFB, revised RadB, TEFF-driven MassB, RadSeed, TeffSeed, and MassSeed calculations
 - User-requested TEFFB display rounding to three decimal places
 - Conditional MassB display precision: six decimals below 1, four from 1 to below 100, and two at 100 or greater
 - O1–L0 Seeded-Teff spectral rubric with continuous SpectralB weights
-- Radius, effective-temperature, and current-bound-mass evolution multipliers
+- Revised late-stage radius and effective-temperature multipliers, plus current-bound-mass evolution multipliers
 - Julian-year age interpolation across protostar, proto-main-sequence, main-sequence, and later stages
 - Current Teff, radius, mass, luminosity, density, stage, path, and SpectralC presentation
 - Local leaderboard with editable entries, multiple ranking modes, and a synchronized five-second refresh
@@ -21,11 +21,12 @@ Leaderboard entries are stored in `localStorage`, so they persist in the current
 The implementation is derived from these user-supplied source files:
 
 - `CHARLOTTEVERSELAW_Rule92_Applied.docx` (revision date 2026-07-22)
-- `stellar_evolution_with_redefined_teff_spectral_rubric.xlsx`
+- `stellar_evolution_multipliers_codex_late_stage_revision.xlsx` (revised paths, timing, radius, Teff, MS-radius audit, and terminal rules)
+- `stellar_evolution_with_redefined_teff_spectral_rubric.xlsx` (preserved spectral rubric, segment interpolation, and mass-evolution tables)
 
 The normalized workbook data needed by the calculator is bundled at `app/workbook-data.json`. No source spreadsheet or Word document is required at runtime.
 
-User-provided formulas take precedence where they differ from the document. In particular, the application uses the requested seven-term TEFFB formula and displays TEFFB to three decimal places.
+User-provided formulas take precedence where they differ from the document. The application uses the requested seven-term TEFFB formula, the revised TEFF-driven MassB formula, and the workbook's subtype-based RadB correction factors. TEFFB displays to three decimal places.
 
 ## Run locally
 
@@ -50,6 +51,8 @@ pnpm build
 
 ## Deploy on Vercel
 
+For copy-paste GitHub commands and domain setup, see [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
 1. Create a new GitHub repository and push this project.
 2. In Vercel, choose **Add New → Project** and import the repository.
 3. Keep the detected framework as **Next.js**.
@@ -61,12 +64,13 @@ Every Git branch or pull request can receive a Vercel preview deployment through
 ## Calculation notes
 
 - Full precision is preserved through base, seed, spectral-weight, checkpoint, and current-value calculations. Rounding is applied only to presentation values.
-- RadB always uses unseeded TeffB.
+- MassB uses unseeded TeffB as its `TEFF` input.
+- RadB begins with unseeded TeffB, then applies the revised continuously blended subtype correction factor from the MS Radius Audit before the surname seed.
 - SpectralB is determined from Seeded Teff only.
 - Current luminosity is `R² × (Teff / 5772)⁴` in solar luminosities.
 - Current mean density is `1.409822456 × M / R³` in g/cm³.
 - The workbook defines L0 for classification but does not define L0 evolution tracks. L-classified results therefore disclose that evolution is clamped to the M9 track rather than inventing L0 multipliers.
-- Entries older than the workbook schedule are held at the final living endpoint; compact remnants require an actual death event and are not assigned by this calculator.
+- The revised Off-V Core-H Burning stage and 90% late-stage checkpoints are included. Entries older than the workbook schedule are held at the final living endpoint; compact remnants require an actual death event and are not assigned by this calculator.
 
 ## Project structure
 
