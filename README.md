@@ -1,6 +1,6 @@
 # Charlotte Star Calculator
 
-A GitHub-ready Next.js application for the fictional Charlotteverse. It converts CLT and a legal surname into base stellar values, applies the workbook's continuous spectral/evolution interpolation, and maintains a live leaderboard that recalculates every five seconds.
+A GitHub-ready Next.js project for the fictional Charlotteverse. The repository is prepared for a website implementation that converts CLT and a legal surname into base stellar values, applies the workbook's continuous spectral/evolution interpolation, and maintains a live leaderboard that recalculates every five seconds.
 
 ## Features
 
@@ -23,9 +23,15 @@ The implementation is derived from these user-supplied source files:
 - `CHARLOTTEVERSELAW_Rule92_Applied.docx` (revision date 2026-07-22)
 - `stellar_evolution_with_redefined_teff_spectral_rubric.xlsx`
 
-The normalized workbook data needed by the calculator is bundled at `app/workbook-data.json`. No source spreadsheet or Word document is required at runtime.
+The normalized workbook data needed by the calculator should be bundled with the website source, for example at `app/workbook-data.json`, so no source spreadsheet or Word document is required at runtime.
 
 User-provided formulas take precedence where they differ from the document. In particular, the application uses the requested seven-term TEFFB formula and displays TEFFB to three decimal places.
+
+## Website readiness
+
+This repository currently contains the Next.js project configuration and package metadata. Add the actual website source under `app/` or `pages/` before running a production build or deployment; Next.js requires one of those directories to exist.
+
+Generated dependency and framework-output directories are ignored so the repository stays clean for GitHub and hosting providers.
 
 ## Run locally
 
@@ -68,7 +74,7 @@ Every Git branch or pull request can receive a Vercel preview deployment through
 - The workbook defines L0 for classification but does not define L0 evolution tracks. L-classified results therefore disclose that evolution is clamped to the M9 track rather than inventing L0 multipliers.
 - Entries older than the workbook schedule are held at the final living endpoint; compact remnants require an actual death event and are not assigned by this calculator.
 
-## Project structure
+## Suggested project structure
 
 ```text
 app/
